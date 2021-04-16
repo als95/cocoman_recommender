@@ -15,6 +15,7 @@ from cocoman_recommender.schemas.search_history import SearchHistory
 
 from cocoman_recommender.containers import Container
 from cocoman_recommender.routers import ott_controller
+from cocoman_recommender.routers import contents_controller
 
 
 def create_app():
@@ -22,7 +23,7 @@ def create_app():
     app = FastAPI()
 
     """ Define Container """
-    container.wire(modules=[ott_controller])
+    container.wire(modules=[contents_controller])
 
     app.container = container
 
@@ -34,7 +35,8 @@ def create_app():
     """ Define Middleware """
 
     """ Define Router """
-    app.include_router(ott_controller.router)
+    # app.include_router(ott_controller.router)
+    app.include_router(contents_controller.router)
 
     return app
 
