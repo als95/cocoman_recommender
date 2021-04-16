@@ -52,7 +52,29 @@ class Contents(Base):
     genres_id = relationship('Genre', secondary=contents_genre, back_populates='contents_set')
     keywords_id = relationship('Keyword', secondary=contents_keyword, back_populates='contents_set')
 
+    def setTitle(self,str):
+        self.title = str
+
 
 class ContentsRepository(BaseRepository):
+    def __init__(self, session_factory):
+        super().__init__(session_factory)
+
     def get_all(self) -> List[Contents]:
         return self.session.query(Contents).all()
+
+    def create(self, contents: Contents):
+        with self.session_factory() as session:
+            session.add(contents)
+            session.commit()
+
+    def get_by_id(self, id: int):
+        with self.session_factory() as session:
+            return session.query(Contents).get(id=id)
+
+
+    def update_title(self,id:int, title:str):
+        with self.session_factory() as session:
+            content_query = session.query(Contents).filter(Contents.id == id)
+            content_query.title = title
+            session.commit()
