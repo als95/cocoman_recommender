@@ -1,5 +1,8 @@
 from pydantic import BaseModel
-from typing import List
+
+
+class ContentsBaseDto(BaseModel):
+    id: int
 
 
 class ContentsDto(BaseModel):
@@ -12,8 +15,8 @@ class ContentsDto(BaseModel):
     open_date: str
     broadcast_date: str
     story: str
-    ott_set: List[int]
-    actors_set: List[int]
-    directors_set: List[int]
-    genres_set: List[int]
-    keywords_set: List[int]
+    poster_path: str
+
+
+class ContentsUpdateDto(ContentsBaseDto, ContentsDto):
+    pass

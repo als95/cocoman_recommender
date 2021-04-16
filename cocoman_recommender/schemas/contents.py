@@ -63,34 +63,30 @@ class ContentsRepository(BaseRepository):
 
     def get_by_id(self, id: int):
         with self.session_factory() as session:
-            return session.query(Contents).get(id=id)
+            return session.query(Contents).get(id)
 
     def create(self, entity: Contents):
         with self.session_factory() as session:
             session.add(entity)
             session.commit()
+            session.refresh(entity)
 
-    def delete_by_id(self, id: int):
+    def delete(self, entity: Contents):
         with self.session_factory() as session:
-            session.query(Contents).filter(Contents.id == id).delete(synchronize_session='fetch')
+            session.query(Contents).filter(Contents.id == entity.id).delete(synchronize_session='fetch')
             session.commit()
 
-    def update(self, id: int, entity: Contents):
+    def update(self, entity: Contents):
         with self.session_factory() as session:
-            content_query = session.query(Contents).filter(Contents.id == id)
-            content_query.update({'title': entity.title,
-                                  'year': entity.year,
-                                  'country': entity.country,
-                                  'running_time': entity.running_time,
-                                  'grade_rate': entity.grade_rate,
-                                  'broadcaster': entity.broadcaster,
-                                  'open_date': entity.open_date,
-                                  'broadcast_date': entity.broadcast_date,
-                                  'story': entity.story,
-                                  'poster_path': entity.poster_path,
-                                  'ott_id': entity.ott_id,
-                                  'actors_id': entity.actors_id,
-                                  'directors_id': entity.directors_id,
-                                  'genres_id': entity.genres_id,
-                                  'keywords_id': entity.keywords_id,
-                                  }, synchronize_session='fetch')
+            session.query(Contents).update({'title': entity.title,
+                                            'year': entity.year,
+                                            'country': entity.country,
+                                            'running_time': entity.running_time,
+                                            'grade_rate': entity.grade_rate,
+                                            'broadcaster': entity.broadcaster,
+                                            'open_date': entity.open_date,
+                                            'broadcast_date': entity.broadcast_date,
+                                            'story': entity.story,
+                                            'poster_path': entity.poster_path,
+                                            }, synchronize_session='fetch')
+            session.commit()
