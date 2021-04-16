@@ -15,7 +15,7 @@ from cocoman_recommender.schemas.search_history import SearchHistory
 
 from cocoman_recommender.containers import Container
 from cocoman_recommender.routers import ott_controller
-
+from cocoman_recommender.routers import actor_controller
 
 def create_app():
     container = Container()
@@ -23,6 +23,7 @@ def create_app():
 
     """ Define Container """
     container.wire(modules=[ott_controller])
+    container.wire(modules=[actor_controller])
 
     app.container = container
 
@@ -35,6 +36,7 @@ def create_app():
 
     """ Define Router """
     app.include_router(ott_controller.router)
+    app.include_router(actor_controller.router)
 
     return app
 
